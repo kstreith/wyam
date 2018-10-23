@@ -1,0 +1,44 @@
+backend:
+  name: github
+  repo: kstreith/wyam
+
+media_folder: "input/assets/images" # Folder where user uploaded files should go
+public_folder: "assets/images"
+
+collections: # A list of collections the CMS should be able to edit
+  - name: "painting" # Used in routes, ie.: /admin/collections/:slug/edit
+    label: "Painting" # Used in the UI, ie.: "New Post"
+    folder: "input/paintings" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    extension: "yml"
+    slug: "{{slug}}"
+    fields: # The fields each document in this collection have
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Size", name: "size", widget: "string"}
+      - {label: "Price", name: "price", widget: "number", valueType: "float"}
+      - {label: "Sku", name: "sku", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "For Sale", name: "forSale", widget: "boolean", default: true}
+      - {label: "Sold", name: "sold", widget: "boolean", required: false}
+  - name: "galleries"
+    label: "Galleries"
+    folder: "input/galleries"
+    create: true
+    extension: "yml"
+    fields:
+      - {label: "Title", name: "title", widget: "string" }
+      - {label: "Images", name: "images", widget: "list", fields: { label: "Image", name: "image", widget: "image" } }
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "Painting Gallery"
+        name: "paintinggallery.yml"
+        file: "input/paintinggallery.yml"
+        fields:
+          - label: "Galleries"
+            name: "galleries"
+            widget: "list"
+            fields: 
+              - { label: "Gallery", name: "gallery", widget: string }
+              - { label: "Gallery Image", name: "galleryImage", widget: "image" }
